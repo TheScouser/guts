@@ -18,8 +18,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         float input = Input.GetAxis("Vertical");
         float inputH = Input.GetAxis("Horizontal");
-        GetComponent<Rigidbody2D>().AddForce(gameObject.transform.up * speed * input);
-        GetComponent<Rigidbody2D>().AddForce(gameObject.transform.right * speed * inputH);
+        float posX = gameObject.transform.position.x +  speed * inputH;
+	float posY = gameObject.transform.position.y +  speed * input;
+	transform.position = new Vector3(Mathf.Clamp(posX,-8,8), Mathf.Clamp(posY,-8,8), 0);
 		if (Input.GetMouseButton (0) && Time.time > nextFire) {
 			nextFire = Time.time + ShotTimer;
 			GameObject instance =(GameObject) Instantiate (bullet, transform.position , Quaternion.identity);
