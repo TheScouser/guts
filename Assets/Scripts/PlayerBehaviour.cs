@@ -4,7 +4,9 @@ using System;
 public class PlayerBehaviour : MonoBehaviour
 {
     public float speed;
-
+    public GameObject bullet;
+	public float ShotTimer = 0.01f;
+	public float nextFire = 0.0f;
     void FixedUpdate()
     {
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -18,6 +20,11 @@ public class PlayerBehaviour : MonoBehaviour
         float inputH = Input.GetAxis("Horizontal");
         GetComponent<Rigidbody2D>().AddForce(gameObject.transform.up * speed * input);
         GetComponent<Rigidbody2D>().AddForce(gameObject.transform.right * speed * inputH);
+		if (Input.GetMouseButton (0) && Time.time > nextFire) {
+			nextFire = Time.time + ShotTimer;
+			GameObject instance =(GameObject) Instantiate (bullet, transform.position , Quaternion.identity);
+			instance.GetComponent<Rigidbody2D> ().AddForce (transform.forward * speed,ForceMode2D.Impulse);
+		}
 
     }
 }
